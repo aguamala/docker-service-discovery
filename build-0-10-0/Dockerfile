@@ -1,5 +1,5 @@
 FROM aguamala/haproxy-systemd
-
+MAINTAINER "gabo" <aguamala@deobieta.com>
 ENV CONSUL_TEMPLATE_VERSION 0.10.0
 
 ADD https://github.com/hashicorp/consul-template/releases/download/v${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz /
