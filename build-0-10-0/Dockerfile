@@ -8,7 +8,8 @@ RUN tar zxvf consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz && \
     mv consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64/consul-template /usr/local/bin/consul-template &&\
     rm -rf /consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz && \
     rm -rf /consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64 && \
-    mkdir -p /etc/consul-template /etc/consul-template/conf.d /etc/consul-template/templates
+    mkdir -p /etc/consul-template /etc/consul-template/config.d /etc/consul-template/templates && \
+    mkdir -p /etc/haproxy/assemble
 
 COPY  config.hcl /etc/consul-template/conf.d/
 COPY  consul-template.service /etc/systemd/system/
