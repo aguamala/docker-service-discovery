@@ -13,6 +13,7 @@ RUN tar zxvf consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz && \
 
 COPY config.hcl /etc/consul-template/conf.d/
 COPY consul-template.service /etc/systemd/system/
+RUN systemctl enable consul-template.service
+
 COPY service-discovery-restart-haproxy /usr/bin/
 RUN chmod +x /usr/bin/service-discovery-restart-haproxy
-RUN systemctl enable consul-template.service
