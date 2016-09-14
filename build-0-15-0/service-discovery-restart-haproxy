@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/bin/rm -rf /etc/haproxy/haproxy.cfg
+/bin/cat /etc/haproxy/assemble/*.cfg >> /etc/haproxy/haproxy.cfg
+systemctl restart haproxy.service
