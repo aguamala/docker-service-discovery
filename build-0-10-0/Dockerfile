@@ -2,12 +2,23 @@ FROM aguamala/haproxy-systemd
 MAINTAINER "gabo" <aguamala@deobieta.com>
 ENV CONSUL_TEMPLATE_VERSION 0.10.0
 
-ADD https://github.com/hashicorp/consul-template/releases/download/v${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz /
+RUN yum install -y unzip && \
+    yum clean all
 
-RUN tar zxvf consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz && \
-    mv consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64/consul-template /usr/local/bin/consul-template &&\
-    rm -rf /consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz && \
-    rm -rf /consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64 && \
+RUN gpg --keyserver keys.gnupg.net --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C && \
+    mkdir -p /tmp/build && \
+    cd /tmp/build && \
+    curl -O https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip  && \
+    curl -O https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_SHA256SUMS && \
+    curl -O https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_SHA256SUMS.sig && \
+    gpg --batch --verify consul-template_${CONSUL_TEMPLATE_VERSION}_SHA256SUMS.sig consul-template_${CONSUL_TEMPLATE_VERSION}_SHA256SUMS && \
+    grep ${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip consul-template_${CONSUL_TEMPLATE_VERSION}_SHA256SUMS | sha256sum -c && \
+    unzip consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip && \
+    cp  consul-template /usr/local/bin/ && \
+    cd /tmp && \
+    rm -rf /tmp/build && \
+    rm -rf /root/.gnupg && \
+    yum remove -y unzip && \
     mkdir -p /etc/consul-template /etc/consul-template/config.d /etc/consul-template/templates && \
     mkdir -p /etc/haproxy/assemble
 
