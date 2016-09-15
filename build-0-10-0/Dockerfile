@@ -19,7 +19,7 @@ RUN gpg --keyserver keys.gnupg.net --recv-keys 91A6E7F85D05C65630BEF18951852D873
     rm -rf /tmp/build && \
     rm -rf /root/.gnupg && \
     yum remove -y unzip && \
-    mkdir -p /etc/consul-template /etc/consul-template/config.d /etc/consul-template/templates && \
+    mkdir -p /etc/consul-template /etc/consul-template/conf.d /etc/consul-template/templates && \
     mkdir -p /etc/haproxy/assemble
 
 COPY config.hcl /etc/consul-template/conf.d/
